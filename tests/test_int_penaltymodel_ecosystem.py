@@ -7,6 +7,7 @@ import dimod
 import penaltymodel.core as pm
 import penaltymodel.cache as pmc
 import penaltymodel.maxgap as maxgap
+from pkg_resources import iter_entry_points
 
 
 class TestInterfaceWithCache(unittest.TestCase):
@@ -36,3 +37,9 @@ class TestInterfaceWithMaxGap(unittest.TestCase):
 
         self.assertEqual(widget.model.linear, {0: 0, 1: 0})
         self.assertEqual(widget.model.quadratic, {(0, 1): -1})
+
+
+class TestFactories(unittest.TestCase):
+    def test_retrieval(self):
+        factories = list(iter_entry_points('penaltymodel_factory'))
+        self.assertGreaterEqual(len(factories), 0)

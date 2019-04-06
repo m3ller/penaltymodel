@@ -425,3 +425,20 @@ class TestGeneration(unittest.TestCase):
                                 linear_energy_ranges,
                                 quadratic_energy_ranges,
                                 min_classical_gap)
+
+    def test_gap(self):
+        min_classical_gap = 2
+        decision_variables = ['a', 'b']
+        configurations = {(1, -1): 0,
+                          (-1, 1): 0,
+                          (-1, -1): 3}
+        graph = nx.complete_graph(decision_variables + ['c'])
+
+        linear_energy_ranges = {v: (-2, 2) for v in graph}
+        quadratic_energy_ranges = {(u, v): (-1, 1) for u, v in graph.edges}
+
+        # a function from MaxGap's unit tests, `test_generation.py`
+        self.generate_and_check(graph, configurations, decision_variables,
+                                linear_energy_ranges,
+                                quadratic_energy_ranges,
+                                min_classical_gap)
