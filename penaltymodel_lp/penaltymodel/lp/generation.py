@@ -161,7 +161,8 @@ def generate_bqm(graph, table, decision_variables,
 
     # Returns a Scipy OptimizeResult
     result = linprog(cost_weights.flatten(), A_eq=noted_matrix, b_eq=noted_bound,
-                     A_ub=unnoted_matrix, b_ub=unnoted_bound, bounds=bounds)
+                     A_ub=unnoted_matrix, b_ub=unnoted_bound, bounds=bounds,
+                     options={'cholesky': False, 'sym_pos': False})
 
     #TODO: propagate scipy.optimize.linprog's error message?
     if not result.success:
