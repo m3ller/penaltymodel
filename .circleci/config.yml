@@ -128,10 +128,11 @@ jobs:
 
   test-osx-3.7: &osx-tests-template
     macos:
-      xcode: "10.1.0"
+      xcode: "11.2.1"
     environment:
       PYTHON: 3.7.0
       HOMEBREW_NO_AUTO_UPDATE: 1  # for 3.7 we need to update homebrew
+      MACOSX_DEPLOYMENT_TARGET: 10.9
 
     working_directory: ~/repo
 
@@ -145,7 +146,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - pyenv-{{ .Environment.CIRCLE_JOB }}
+            - pyenv-{{ .Environment.CIRCLE_JOB }}-xcode-11.2.1
 
       - run:
           name: install python
@@ -155,7 +156,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.pyenv
-          key: pyenv-{{ .Environment.CIRCLE_JOB }}
+          key: pyenv-{{ .Environment.CIRCLE_JOB }}-xcode-11.2.1
 
       - run:
           name: create virtualenv
@@ -202,12 +203,14 @@ jobs:
     <<: *osx-tests-template
     environment:
       PYTHON: 3.6.5
+      MACOSX_DEPLOYMENT_TARGET: 10.9
       HOMEBREW_NO_AUTO_UPDATE: 1
 
   test-osx-3.5:
     <<: *osx-tests-template
     environment:
       PYTHON: 3.5.5
+      MACOSX_DEPLOYMENT_TARGET: 10.9
       HOMEBREW_NO_AUTO_UPDATE: 1
 
   # test-osx-3.4:
@@ -220,6 +223,7 @@ jobs:
     <<: *osx-tests-template
     environment:
       PYTHON: 2.7.15
+      MACOSX_DEPLOYMENT_TARGET: 10.9
       HOMEBREW_NO_AUTO_UPDATE: 1
 
   deploy-core:
